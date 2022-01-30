@@ -8,6 +8,7 @@ class MaterialsController < ApplicationController
   end
 
   private
+  
   def find
     @material = Material.find(params[:id])
   end
