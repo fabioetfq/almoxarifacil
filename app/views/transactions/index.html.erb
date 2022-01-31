@@ -1,0 +1,7 @@
+<div>
+    <ul>
+      <% @transactions.each do |transaction| %>
+        <li><%= transaction.id %> - Usuário: <%= transaction.user.name %></li>
+        <% end %>
+    </ul>
+</div>
