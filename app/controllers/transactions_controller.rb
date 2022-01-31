@@ -1,5 +1,6 @@
 class TransactionsController < ApplicationController
   before_action :find, only: [:show, :edit, :update, :destroy]
+  before_action :set_material, only: [:create, :sale]
   def index
     @transactions = Transaction.all
   end
@@ -27,10 +28,13 @@ class TransactionsController < ApplicationController
   def edit; end
 
   def sale
-    @transactions.each { |t| t.update(delivered: true) }
+    # Verificar em "Janela de Transferência" como acontece a definição da variável @transactions
+    # Talvez aqui seja o momento de atualizar as quantidades dos materiais.
+    @transactions.each do |t|
+      t.update(delivered: true)
+    end
     redirect_to root_path, notice: "Itens entregues com sucesso"
   end
-
 
   def update
     @transaction.update(transaction_params)
@@ -46,6 +50,10 @@ class TransactionsController < ApplicationController
 
   def find
     @transaction = Transaction.find(params[:id])
+  end
+
+  def set_material
+    @material = Material.find(params[:material_id])
   end
 
   def transaction_params

@@ -1,6 +1,6 @@
 class MaterialsController < ApplicationController
   before_action :find, only: [:show, :edit, :update, :destroy]
-  
+
   def index
     @materials = Material.all
   end
