@@ -1,0 +1,6 @@
+<%= simple_form_for(@material) do |f| %>
+  <%= f.input :name, label: "Material" %>
+  <%= f.input :category, label: "Tipo de material" %>
+  <%= f.input :qty, label: "Quantidade inicial" %>
+  <%= f.submit "Criar material" %>
+<% end %>
