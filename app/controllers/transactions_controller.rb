@@ -19,7 +19,18 @@ class TransactionsController < ApplicationController
     end
   end
 
+  def cart
+    # Verificar "Janela de Transferência"
+    @transaction = Transaction.where(user_id: current_user, delivered: false)
+  end
+
   def edit; end
+
+  def sale
+    @transactions.each { |t| t.update(delivered: true) }
+    redirect_to root_path, notice: "Itens entregues com sucesso"
+  end
+
 
   def update
     @transaction.update(transaction_params)
