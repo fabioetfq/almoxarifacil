@@ -12,7 +12,12 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = Transaction.new(transaction_params)
+    @transaction = Transaction.new
+    @transaction.material = @material
+    @transaction.user = current_user
+    @transaction.completed = false
+    @transaction.delivered = false
+    @transaction.amount = params[:amount]
     if @transaction.save!
       redirect_to transaction_path(@transaction)
     else
@@ -57,6 +62,6 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    params.require(:transaction).permit(:delivered, :completed, :material_id, :user_id)
+    params.require(:transaction).permit(:delivered, :completed, :amount, :material_id, :user_id)
   end
 end
