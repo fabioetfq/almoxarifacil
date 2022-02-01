@@ -1,9 +1,19 @@
 <h2>Materials</h2>
-<h3>Verificar link em célula de tabela no projeto "Data at Hand"</h3>
-<div>
-  <ul>
-    <% @materials.each do |material| %>
-      <li><%= link_to material.name, material_path(material.id) %></li>
-    <% end %>
-  </ul>
+<div id="table">
+  <table>
+    <thead>
+      <tr>
+        <th> Material</th>
+        <th>Quantidade</th>
+      </tr>
+    </thead>
+    <tbody id="body">
+      <% @materials.each do |material| %>
+        <tr>
+          <td><%= link_to material.name, material_path(material.id) %></td>
+          <td><%= material.qty %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
