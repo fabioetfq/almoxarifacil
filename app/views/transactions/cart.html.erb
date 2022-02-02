@@ -1,0 +1,5 @@
+<div>
+  <% @transactions.each do |t| %>
+    <p><%= t.material.name %> - <%= t.user.email %> - Concluído? <%= t.completed %> - Entregue? <%= t.delivered %></p>
+  <% end %>
+</div>

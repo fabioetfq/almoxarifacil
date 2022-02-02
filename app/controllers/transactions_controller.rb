@@ -27,7 +27,7 @@ class TransactionsController < ApplicationController
 
   def cart
     # Verificar "Janela de Transferência"
-    @transaction = Transaction.where(user_id: current_user, delivered: false)
+    @transactions = Transaction.where(user_id: current_user, delivered: false)
   end
 
   def edit; end
@@ -37,6 +37,7 @@ class TransactionsController < ApplicationController
     # Talvez aqui seja o momento de atualizar as quantidades dos materiais.
     @transactions.each do |t|
       t.update(delivered: true)
+      t.update(amount: transaction_params)
     end
     redirect_to root_path, notice: "Itens entregues com sucesso"
   end
