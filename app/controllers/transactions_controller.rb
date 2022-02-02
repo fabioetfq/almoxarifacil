@@ -17,9 +17,9 @@ class TransactionsController < ApplicationController
     @transaction.user = current_user
     @transaction.completed = false
     @transaction.delivered = false
-    @transaction.amount = params[:amount]
+    @transaction.amount = cookie[:cart_amount]
     if @transaction.save!
-      redirect_to transaction_path(@transaction)
+      redirect_to materials_path
     else
       render :new
     end
