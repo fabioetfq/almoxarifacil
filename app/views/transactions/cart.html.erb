@@ -1,0 +1,7 @@
+<h2>Carrinho de <%= @user.email %></h2>
+
+<% @transactions.each do |t| %>
+  <ul>
+    <li><%= t.material.name %> | <%= form_with do |form| %> <%= form.number_field :amount %> <% end %></li>
+  </ul>
+<% end %>

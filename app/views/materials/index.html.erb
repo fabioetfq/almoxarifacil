@@ -12,6 +12,7 @@
         <tr>
           <td><%= link_to material.name, material_path(material.id) %></td>
           <td><%= material.qty %></td>
+          <td><%= link_to 'Adicionar ao carrinho', material_transactions_path(material), method: 'post' %></td>
         </tr>
       <% end %>
     </tbody>

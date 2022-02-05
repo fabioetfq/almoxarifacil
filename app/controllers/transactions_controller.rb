@@ -1,6 +1,7 @@
 class TransactionsController < ApplicationController
   before_action :find, only: [:show, :edit, :update, :destroy]
   before_action :set_material, only: [:create, :sale]
+  before_action :set_user, only: [:cart]
   def index
     @transactions = Transaction.all
   end
@@ -19,7 +20,7 @@ class TransactionsController < ApplicationController
     @transaction.delivered = false
     @transaction.amount = params[:amount]
     if @transaction.save!
-      redirect_to transaction_path(@transaction)
+      redirect_to materials_path(@transaction)
     else
       render :new
     end
@@ -27,7 +28,7 @@ class TransactionsController < ApplicationController
 
   def cart
     # Verificar "Janela de Transferência"
-    @transaction = Transaction.where(user_id: current_user, delivered: false)
+    @transactions = Transaction.where(user_id: current_user, delivered: false)
   end
 
   def edit; end
@@ -63,5 +64,9 @@ class TransactionsController < ApplicationController
 
   def transaction_params
     params.require(:transaction).permit(:delivered, :completed, :amount, :material_id, :user_id)
+  end
+
+  def set_user
+    @user = current_user
   end
 end
