@@ -12,9 +12,14 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = Transaction.new(transaction_params)
+    @transaction = Transaction.new
+    @transaction.material = @material
+    @transaction.user = current_user
+    @transaction.completed = false
+    @transaction.delivered = false
+    @transaction.amount = 1
     if @transaction.save!
-      redirect_to transaction_path(@transaction)
+      redirect_to materials_path
     else
       render :new
     end
@@ -22,7 +27,7 @@ class TransactionsController < ApplicationController
 
   def cart
     # Verificar "Janela de Transferência"
-    @transaction = Transaction.where(user_id: current_user, delivered: false)
+    @transactions = Transaction.where(user_id: current_user, delivered: false)
   end
 
   def edit; end
@@ -32,6 +37,7 @@ class TransactionsController < ApplicationController
     # Talvez aqui seja o momento de atualizar as quantidades dos materiais.
     @transactions.each do |t|
       t.update(delivered: true)
+      t.update(amount: transaction_params)
     end
     redirect_to root_path, notice: "Itens entregues com sucesso"
   end
@@ -57,6 +63,6 @@ class TransactionsController < ApplicationController
   end
 
   def transaction_params
-    params.require(:transaction).permit(:delivered, :completed, :material_id, :user_id)
+    params.require(:transaction).permit(:delivered, :completed, :amount, :material_id, :user_id)
   end
 end
