@@ -1,5 +1,4 @@
 <h2><%= @material.name %></h2>
 <p>Quantidade: <%= @material.qty %></p>
 <p><%= link_to 'Editar', edit_material_path(@material) %></p>
-
 <p><%= link_to 'Adicionar ao carrinho', material_transactions_path(@material), method: "post" %></p>
