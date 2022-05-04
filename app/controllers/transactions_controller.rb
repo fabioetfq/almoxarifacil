@@ -64,7 +64,7 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.find(params[:id])
   end
 
-  def find_in_cart
+  def find_in_cart # Verifica se há alguma instância de Transaction com material já presente no carrinho.
     @transaction = Transaction.exists?(material_id: @material.id)
   end
 
