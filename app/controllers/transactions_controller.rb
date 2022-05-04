@@ -3,6 +3,7 @@ class TransactionsController < ApplicationController
   before_action :set_material, only: [:create, :sale]
   before_action :set_user, only: [:cart]
   before_action :find_in_cart, only: [:create]
+  before_action :cart, only: [:update]
 
   def index
     @transactions = Transaction.all
@@ -38,6 +39,13 @@ class TransactionsController < ApplicationController
   end
 
   def edit; end
+  
+  def update # Confirmação do Pedido
+    @transactions.each do |t|
+      t.update(transaction_params)
+    end
+    redirect_to transaction_path(@transaction)
+  end
 
   def sale
     # Verificar em "Janela de Transferência" como acontece a definição da variável @transactions
@@ -46,11 +54,6 @@ class TransactionsController < ApplicationController
       t.update(delivered: true)
     end
     redirect_to root_path, notice: "Itens entregues com sucesso"
-  end
-
-  def update
-    @transaction.update(transaction_params)
-    redirect_to transaction_path(@transaction)
   end
 
   def destroy
