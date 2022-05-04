@@ -15,7 +15,7 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    unless @transaction.material == @material
+    unless @transaction.material == @material ## Avoid new material already in cart.
       @transaction = Transaction.new
       @transaction.material = @material
       @transaction.user = current_user
