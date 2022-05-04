@@ -2,6 +2,8 @@ class TransactionsController < ApplicationController
   before_action :find, only: [:show, :edit, :update, :destroy]
   before_action :set_material, only: [:create, :sale]
   before_action :set_user, only: [:cart]
+  before_action :find_in_cart, only: [:create]
+
   def index
     @transactions = Transaction.all
   end
@@ -13,16 +15,20 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = Transaction.new
-    @transaction.material = @material
-    @transaction.user = current_user
-    @transaction.completed = false
-    @transaction.delivered = false
-    @transaction.amount = 1
-    if @transaction.save!
-      redirect_to materials_path
+    unless @transaction.material == @material
+      @transaction = Transaction.new
+      @transaction.material = @material
+      @transaction.user = current_user
+      @transaction.completed = false
+      @transaction.delivered = false
+      @transaction.amount = 1
+      if @transaction.save!
+        redirect_to materials_path
+      else
+        render :new
+      end
     else
-      render :new
+      redirect_to cart_path
     end
   end
 
@@ -56,6 +62,10 @@ class TransactionsController < ApplicationController
 
   def find
     @transaction = Transaction.find(params[:id])
+  end
+
+  def find_in_cart
+    @transaction = Transaction.find(params[:material_id])
   end
 
   def set_material
