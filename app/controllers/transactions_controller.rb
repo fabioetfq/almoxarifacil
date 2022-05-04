@@ -23,7 +23,7 @@ class TransactionsController < ApplicationController
       @transaction.delivered = false
       @transaction.amount = 1
       if @transaction.save!
-        redirect_to materials_path
+        redirect_to materials_path, notice: " #{@transaction.material.name} adicionado ao carrinho! "
       else
         render :new
       end
@@ -65,7 +65,7 @@ class TransactionsController < ApplicationController
   end
 
   def find_in_cart
-    @transaction = Transaction.exists?(params[:material_id])
+    @transaction = Transaction.exists?(material_id: @material.id)
   end
 
   def set_material
