@@ -15,7 +15,7 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    unless @transaction.material == @material ## Avoid new material already in cart.
+    unless @transaction # Avoid new material already in cart.
       @transaction = Transaction.new
       @transaction.material = @material
       @transaction.user = current_user
@@ -55,7 +55,7 @@ class TransactionsController < ApplicationController
 
   def destroy
     @transaction.destroy
-    redirect_to materials_path
+    redirect_to cart_path
   end
 
   private
@@ -65,7 +65,7 @@ class TransactionsController < ApplicationController
   end
 
   def find_in_cart
-    @transaction = Transaction.find(params[:material_id])
+    @transaction = Transaction.exists?(params[:material_id])
   end
 
   def set_material
