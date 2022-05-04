@@ -15,7 +15,7 @@ class TransactionsController < ApplicationController
   end
 
   def create
-    unless @transaction.material == @material
+    unless @transaction # Avoid new material already in cart.
       @transaction = Transaction.new
       @transaction.material = @material
       @transaction.user = current_user
@@ -23,7 +23,7 @@ class TransactionsController < ApplicationController
       @transaction.delivered = false
       @transaction.amount = 1
       if @transaction.save!
-        redirect_to materials_path
+        redirect_to materials_path, notice: " #{@transaction.material.name} adicionado ao carrinho! "
       else
         render :new
       end
@@ -55,7 +55,7 @@ class TransactionsController < ApplicationController
 
   def destroy
     @transaction.destroy
-    redirect_to materials_path
+    redirect_to cart_path
   end
 
   private
@@ -64,8 +64,8 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.find(params[:id])
   end
 
-  def find_in_cart
-    @transaction = Transaction.find(params[:material_id])
+  def find_in_cart # Verifica se há alguma instância de Transaction com material já presente no carrinho.
+    @transaction = Transaction.exists?(material_id: @material.id)
   end
 
   def set_material
