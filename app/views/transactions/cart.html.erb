@@ -4,7 +4,7 @@
 <div>
   <% @transactions.each do |t| %>
     <ul>
-      <li><%= t.material.name %> | <%= form_with do |form| %> <%= form.number_field :amount %> <% end %> | <%= link_to 'Excluir', transaction_path(t), method: :delete, data: { confirm: "Excluir #{t.material.name} do carrinho?" } %></li>
+      <li><%= t.material.name %> | <%= form_with do |form| %> <%= form.number_field :amount %> <%= form.submit "Atualizar qtd" %> <% end %> | <%= link_to 'Excluir', transaction_path(t), method: :delete, data: { confirm: "Excluir #{t.material.name} do carrinho?" } %></li>
     </ul>
   <% end %>
 </div>
